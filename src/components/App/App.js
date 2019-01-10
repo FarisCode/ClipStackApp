@@ -1,5 +1,5 @@
 import '../../assets/css/App.css';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import electron, { app } from "electron";
 import Clip from '../Clip/Clip';
 import setting from '../../assets/gear.svg';
@@ -11,7 +11,7 @@ import SettingMenu from '../SettingMenu/SettingMenu';
 const clipboard = electron.clipboard;
 const remote = electron.remote;
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props)
     this.state = {
@@ -23,6 +23,7 @@ class App extends Component {
         onTop: true,
         launchOnStartup: true,
         clipSync: 100,
+        clipLimit: 20,
       }
     }
     this.onClipClickHandler = this.onClipClickHandler.bind(this);
@@ -38,6 +39,7 @@ class App extends Component {
         onTop: data.onTop,
         launchOnStartup: data.launchOnStartup,
         clipSync: data.clipSync,
+        clipLimit: data.clipLimit,
       }
     })
   }
@@ -50,27 +52,29 @@ class App extends Component {
   }
 
   componentDidMount() {
+    let temp = '';
     this.clipTimer = setInterval(() => {
-      this.setState({
-        clip: clipboard.readText().trim()
-      })
+      temp = clipboard.readText().trim();
+      if (this.state.clip !== temp) {
+        this.setState({
+          clip: clipboard.readText().trim()
+        }, () => {
+          this.setState((prevState) => ({
+            clipboardStack: _.uniq(prevState.clipboardStack),
+          }))
+        })
+      }
     }, this.state.settings.clipSync);
-
-    this.uniqArrTimer = setInterval(() => {
-      this.setState((prevState) => ({
-        clipboardStack: _.uniq(prevState.clipboardStack),
-      }))
-    }, 50)
   }
 
   componentWillUnmount() {
     clearInterval(this.clipTimer);
-    clearInterval(this.uniqArrTimer);
   }
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.clipboardStack.length > 20) {
+    console.log(this.state.settings.clipLimit + ' and ' + this.state.clipboardStack.length)
+    if (this.state.clipboardStack.length > +this.state.settings.clipLimit) {
       let stack = [...this.state.clipboardStack];
-      stack.splice(20, 1);
+      stack.splice(this.state.settings.clipLimit, 1);
       this.setState({ clipboardStack: [...stack] });
     }
     if (prevState.settings.clipSync !== this.state.settings.clipSync) {

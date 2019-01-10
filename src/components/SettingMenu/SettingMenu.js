@@ -8,6 +8,7 @@ export default class SettingMenu extends Component {
       onTop: true,
       launchOnStartup: true,
       clipSync: 100,
+      clipLimit: 20,
     }
 
     this.state = JSON.parse(window.localStorage.getItem('personal-settings')) || this.defaults;
@@ -56,6 +57,15 @@ export default class SettingMenu extends Component {
             />
           </div>
           <div className='item'>
+            <span>Clips Limit: </span>
+            <input type='text'
+              onKeyPress={this.validate}
+              value={this.state.clipLimit}
+              onChange={(e) => { this.setState({ clipLimit: e.target.value }) }}
+              className='form'
+            />
+          </div>
+          <div className='item'>
             <span>Startup launch:</span>
             <div className="checkbox">
               <input
@@ -87,6 +97,7 @@ export default class SettingMenu extends Component {
               onTop: this.state.onTop,
               launchOnStartup: this.state.launchOnStartup,
               clipSync: this.state.clipSync,
+              clipLimit: this.state.clipLimit,
             })
           }}>Save</button>
           <button className='btn resetBtn' onClick={() => { this.props.saveBtnHandler(this.defaults) }}>Defaults</button>
