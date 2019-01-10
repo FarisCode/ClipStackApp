@@ -1,93 +1,18 @@
-<p align="center">
-  <img src="https://cdn.rawgit.com/alexdevero/electron-react-webpack-boilerplate/master/docs/images/electron-react-webpack-boilerplate.png" width="135" align="center">
-  <br>
-  <br>
-</p>
+### To get started:
+* Run `yarn`
 
-<p align="center">
-  <a href="https://david-dm.org/alexdevero/electron-react-webpack-boilerplate"><img alt="Dependency Status" src="https://david-dm.org/alexdevero/electron-react-webpack-boilerplate.svg?style=flat"></a>
-  <a href="https://david-dm.org/alexdevero/electron-react-webpack-boilerplate?type=dev"><img alt="devDependency Status" src="https://david-dm.org/alexdevero/electron-react-webpack-boilerplate/dev-status.svg?style=flat"></a>
-  <a href="http://opensource.org/licenses/MIT"><img alt="MIT License" src="https://img.shields.io/npm/l/express.svg"></a>
-</p>
+##### Development
+* Run `yarn start` to start webpack-dev-server. Electron will launch automatically after compilation.
 
-<p align="center">
-  <a href="https://alexdevero.com"><img alt="Built by DEVERO" src="https://img.shields.io/badge/built%20by-DEVERO-brightgreen.svg?colorB=d30320"></a>
-  <a href="https://github.com/alexdevero/electron-react-webpack-boilerplate/releases"><img alt="Current release" src="https://img.shields.io/github/release/alexdevero/electron-react-webpack-boilerplate.svg"></a>
-</p>
+##### Production
+_You have two options, an automatic build or two manual steps_
 
-## Minimal Electron, React and Webpack boilerplate
+###### One Shot
+* Run `yarn package` to have webpack compile your application into `dist/bundle.js` and `dist/index.html`, and then an electron-packager run will be triggered for the current platform/arch, outputting to `builds/`
 
-Minimal Electron, React, PostCSS and Webpack boilerplate to help you get started with building your next app.
+###### Manual
+_Recommendation: Update the "postpackage" script call in package.json to specify parameters as you choose and use the `yarn package` command instead of running these steps manually_
+* Run `yarn build` to have webpack compile and output your bundle to `dist/bundle.js`
+* Then you can call electron-packager directly with any commands you choose
 
-### Table of contents
-
-* [Install](#install)
-* [Usage](#usage)
-* [Code of Conduct](#code-of-conduct)
-* [License](#license)
-
-### Install
-
-#### Clone this repo
-
-```
-git clone https://github.com/alexdevero/electron-react-webpack-boilerplate.git
-```
-
-#### Install dependencies
-
-```
-npm install
-```
-or
-```
-yarn
-```
-
-### Usage
-
-#### Run the app
-
-```
-npm run start
-```
-or
-```
-yarn start
-```
-
-#### Build the app (automatic)
-
-```
-npm run package
-```
-or
-```
-yarn package
-```
-
-#### Build the app (manual)
-
-```
-npm run build
-```
-or
-```
-yarn build
-```
-
-#### Test the app (after `npm run build` || `yarn run build`)
-```
-npm run prod
-```
-```
-yarn prod
-```
-
-### Code of Conduct
-
-[Contributor Code of Conduct](code-of-conduct.md). By participating in this project you agree to abide by its terms.
-
-### License
-
-MIT © [Alex Devero](https://alexdevero.com).
+If you want to test the production build (In case you think Babili might be breaking something) after running `npm run build` you can then call `yarn prod`. This will cause electron to load off of the `dist/` build instead of looking for the webpack-dev-server instance. Electron will launch automatically after compilation.
