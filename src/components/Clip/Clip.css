@@ -1,0 +1,21 @@
+.Clip{
+  width: 95%;
+  margin: auto;
+  word-wrap: break-word;
+  min-height: 20px;
+  margin-top: 5px;
+  background-color: #fff;
+  border-radius: 3px;
+  box-sizing: border-box;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+  -webkit-user-select: none;
+}
+.Clip:first-child{
+  background-color: rgb(202, 255, 202);
+}
+.clipDark:first-child{
+  border: 2px solid #888;
+  box-shadow:  rgba(119, 119, 119, 0.6) 0px 0px 5px, rgba(117, 117, 117, 0.6) 0px 0px 5px;
+}
